@@ -1,0 +1,125 @@
+<form action="/formGET" method="GET" class="form-example">
+  <h1>Méthode GET</h1>
+  <div class="form-example">
+    <label for="id_tache">ID de la tache: </label>
+    <input type="integer" name="id_tache" id="id_tache" required>
+  </div>
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
+<form action="/formPOST" method="GET" class="form-example">
+  <h1>Méthode POST</h1>
+  <div class="form-example">
+    <label for="title">title: </label>
+    <input type="text" name="title_tache" id="title_tache" required>
+  </div>
+  <p>Dates au format : YYYY-MM-DD HH:MM:SS.SSS </p>
+  <div class="form-example">
+    <label for="dateBegin">dateBegin: </label>
+    <input type="text" name="dateBegin_tache" id="dateBegin_tache" required>
+  </div>
+  <div class="form-example">
+    <label for="dateEnd">dateEnd: </label>
+    <input type="text" name="dateEnd_tache" id="dateEnd_tache" required>
+  </div>
+  <div class="form-example">
+    <label for="text">statut: </label>
+    <select type="text" name="statut_tache" id="statut_tache">
+      <option>Non précisé</option>
+      <option>Une tâche est requise</option>
+      <option>En cours</option>
+      <option>Achevée</option>
+      <option>Annulée</option>
+    </select>
+  </div>
+  <div class="form-example">
+    <p>Prière de séparer les tags par une virgule.</p>
+    <label for="tags">tags: </label>
+    <textarea type="text" name="tags_tache" id="tags_tache" required></textarea>
+  </div>        
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
+<form action="/form" method="PUT" class="form-example">
+  <h1>Méthode PUT</h1>
+  <div class="form-example">
+    <label for="title">title: </label>
+    <input type="text" name="title_tache" id="title_tache" required>
+  </div>
+  <p>Dates au format : YYYY-MM-DD HH:MM:SS.SSS </p>
+  <div class="form-example">
+    <label for="dateBegin">dateBegin: </label>
+    <input type="text" name="dateBegin_tache" id="dateBegin_tache" required>
+  </div>
+  <div class="form-example">
+    <label for="dateEnd">dateEnd: </label>
+    <input type="text" name="dateEnd_tache" id="dateEnd_tache" required>
+  </div>
+  <div class="form-example">
+    <label for="text">statut: </label>
+    <select type="text" name="statut_tache" id="statut_tache">
+      <option>Non précisé</option>
+      <option>Une tâche est requise</option>
+      <option>En cours</option>
+      <option>Achevée</option>
+      <option>Annulée</option>
+    </select>
+  </div>
+  <div class="form-example">
+    <p>Prière de séparer les tags par une virgule.</p>
+    <label for="tags">tags: </label>
+    <textarea type="text" name="tags_tache" id="tags_tache" required></textarea>
+  </div>        
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
+<form action="/form" method="DELETE" class="form-example">
+  <h1>Méthode DELETE</h1>
+  <div class="form-example">
+    <label for="id">ID de la tache: </label>
+    <input type="integer" name="id_tache" id="id_tache" required>
+  </div>
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
+<div class="result_panel">
+  <h1 class="h1_panel">Panel de résultat</h1>
+
+  <% if (state) {%>
+    <p id="infos"> <%=state["state"] %></p>
+  <% } %>
+
+  <% if (req_response) { %>
+  <table>
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Title</th>
+        <th>DateBegin</th>
+        <th>DateEnd</th>
+        <th>Statut</th>
+        <th>Tags</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= req_response["id"] %></td>
+        <td><%= req_response["title"] %></td>
+        <td><%= req_response["dateBegin"] %></td>
+        <td><%= req_response["dateEnd"] %></td>
+        <td><%= req_response["statut"] %></td>
+        <td><%= req_response["tags"] %></td>
+      </tr>
+    </tbody>
+  </table>
+  <% } %>
+
+</div>
