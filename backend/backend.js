@@ -47,8 +47,8 @@ app.get('/taches/:id', function (req, res) {
 app.post('/taches', function (req, res) {
   //res.send('[POST] /taches');
   console.log('POST')
-  console.log(req)
-  tache = req.body.tache;
+  console.log(req.body)
+  //tache = req.body.tache;
 
   // console.log(tache);
   // let tags_tache = "";

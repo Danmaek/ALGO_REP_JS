@@ -43,45 +43,45 @@ router.get('/formGET', function (req, res) {
 });
 
 // TODO : méthode post
-router.get('/formPOST', function (req, res) {
+// router.get('/formPOST', function (req, res) {
 
-  let tache = {};
-  tache.title_tache = req.query.title_tache; 
-  tache.dateBegin_tache = req.query.dateBegin_tache; 
-  tache.dateEnd_tache = req.query.dateEnd_tache; 
-  tache.statut_tache = req.query.statut_tache; 
-  tache.tags_tache = req.query.tags_tache;
+//   let tache = {};
+//   tache.title_tache = req.query.title_tache; 
+//   tache.dateBegin_tache = req.query.dateBegin_tache; 
+//   tache.dateEnd_tache = req.query.dateEnd_tache; 
+//   tache.statut_tache = req.query.statut_tache; 
+//   tache.tags_tache = req.query.tags_tache;
   
-  console.log(tache)
-  let post_data = JSON.stringify(tache)
+//   console.log(tache)
+//   let post_data = JSON.stringify(tache)
 
-  options.method = 'POST';
-  options.headers['Content-Length'] = post_data.length;
+//   options.method = 'POST';
+//   options.headers['Content-Length'] = post_data.length;
 
-  console.log(options);
+//   console.log(options);
 
-  var post_req = http.request(options, (resp) => {
-    console.log('post_req')
-    let data = '';
-    // A chunk of data has been recieved.
-    resp.on('data', (chunk) => {
-      console.log(data)
-      data += chunk;
-    });
-    // The whole response has been received. Print out the result.
-    resp.on('end', () => {
-      state = JSON.parse(data.toString());
-      console.log(state);
-      res.render('index', {state : state});
-    });
-  }).on("error", (err) => {
-    console.log("Error: " + err.message);
-  });
+//   var post_req = http.request(options, (resp) => {
+//     console.log('post_req')
+//     let data = '';
+//     // A chunk of data has been recieved.
+//     resp.on('data', (chunk) => {
+//       console.log(data)
+//       data += chunk;
+//     });
+//     // The whole response has been received. Print out the result.
+//     resp.on('end', () => {
+//       state = JSON.parse(data.toString());
+//       console.log(state);
+//       res.render('index', {state : state});
+//     });
+//   }).on("error", (err) => {
+//     console.log("Error: " + err.message);
+//   });
 
-  post_req.write(post_data);
-  post_req.end();
+//   post_req.write(post_data);
+//   post_req.end();
 
-});
+// });
 
 // TODO : méthode put
 
