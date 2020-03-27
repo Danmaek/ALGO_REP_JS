@@ -47,30 +47,30 @@ app.get('/taches/:id', function (req, res) {
 app.post('/taches', function (req, res) {
   //res.send('[POST] /taches');
   console.log('POST')
-  console.log(req.body)
+  console.log(req)
   tache = req.body.tache;
 
-  console.log(tache);
-  let tags_tache = "";
-  console.log(tache.tags_tache)
-  tache["tags_tache"].forEach(element => {
-    tags_tache = tags_tache + element + ',';
-  });
-  tache.tags_tache = tags_tache
-  console.log(tache.tags_tache)
-  db_request = "INSERT INTO DB_gestionnaireDeTaches(title, dateBegin, dateEnd, statut, tags) VALUES (?,?,?,?,?)"
-  db_param = [tache.title, tache.dateBegin, tache.dateEnd, tache.statut, tache.tags_tache];
-  db_run(db_request, db_param)
-    .then(function(response){
-      console.log(response)
-      let buf = Buffer.from(JSON.stringify({'state' : '[SUCCESS] Insertion effectuée'}));
-      return res.end(buf); 
-    })
-    .catch(function(response){
-      console.log(response)
-      let buf = Buffer.from(JSON.stringify({'state' : '[FAILURE] Echec de l\'insertion'}));
-      return res.end(buf); 
-    })
+  // console.log(tache);
+  // let tags_tache = "";
+  // console.log(tache.tags_tache)
+  // tache["tags_tache"].forEach(element => {
+  //   tags_tache = tags_tache + element + ',';
+  // });
+  // tache.tags_tache = tags_tache
+  // console.log(tache.tags_tache)
+  // db_request = "INSERT INTO DB_gestionnaireDeTaches(title, dateBegin, dateEnd, statut, tags) VALUES (?,?,?,?,?)"
+  // db_param = [tache.title, tache.dateBegin, tache.dateEnd, tache.statut, tache.tags_tache];
+  // db_run(db_request, db_param)
+  //   .then(function(response){
+  //     console.log(response)
+  //     let buf = Buffer.from(JSON.stringify({'state' : '[SUCCESS] Insertion effectuée'}));
+  //     return res.end(buf); 
+  //   })
+  //   .catch(function(response){
+  //     console.log(response)
+  //     let buf = Buffer.from(JSON.stringify({'state' : '[FAILURE] Echec de l\'insertion'}));
+  //     return res.end(buf); 
+  //   })
 });
 
 // Methode PUT

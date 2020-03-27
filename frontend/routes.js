@@ -50,18 +50,13 @@ router.get('/formPOST', function (req, res) {
   tache.dateBegin_tache = req.query.dateBegin_tache; 
   tache.dateEnd_tache = req.query.dateEnd_tache; 
   tache.statut_tache = req.query.statut_tache; 
-  tache.tags_tache = req.query.tags_tache; 
+  tache.tags_tache = req.query.tags_tache;
+  
   console.log(tache)
- 
-  let data = JSON.stringify(tache)
-  console.log(tache)
+  let post_data = JSON.stringify(tache)
 
   options.method = 'POST';
-  options.headers['Content-Length'] = data.length;
-
-  // console.log(tache)
-  // options.body = {};
-  // options.body['tache'] = tache;
+  options.headers['Content-Length'] = post_data.length;
 
   console.log(options);
 
@@ -83,7 +78,7 @@ router.get('/formPOST', function (req, res) {
     console.log("Error: " + err.message);
   });
 
-  //post_req.write(post_data);
+  post_req.write(post_data);
   post_req.end();
 
 });
