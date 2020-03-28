@@ -9,12 +9,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // importation du module sqlite en mode verbose
 const sqlite3 = require('sqlite3').verbose();
 // création de l'objet database, vérification par une fonction de callback
-const db = new sqlite3.Database('../sqlite/gestionnaireTache.db',(err) => {
-  if (err) {
-    return console.error(err.message);
-  }
-  console.log('Connected to the gestionnaireTaches SQlite database.');
-});
+const db = create_db_connexion();
 
 let tache = {};
 let db_request = "";
@@ -148,6 +143,16 @@ app.post('/db', function (req, res) {
 });
 
 //*-----------------*
+
+function create_db_connexion(){
+  const db = new sqlite3.Database('../sqlite/gestionnaireTache.db',(err) => {
+    if (err) {
+      return console.error(err.message);
+    }
+    console.log('Connected to the gestionnaireTaches SQlite database.');
+  });
+  return db;
+}
 
 function db_get(sql,params){
   return new Promise(function(resolve, reject){
