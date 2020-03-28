@@ -2,7 +2,9 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
+
 app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // importation du module sqlite en mode verbose
 const sqlite3 = require('sqlite3').verbose();
@@ -32,13 +34,32 @@ app.get('/taches/:id', function (req, res) {
   db_param = tache.id;
   db_get(db_request, db_param)
     .then(function(response){
-      // conversion du résultat en buffer 
-      let buf = Buffer.from(JSON.stringify(response[0]));
-      // envoie du buffer vers les client
-      return res.end(buf); 
+      console.log(response)
+      let state = {'state' : '[OK] GET'};
+      let buf = Buffer.from(JSON.stringify({'state' : state, 'req_response' : response}));
+      return res.end(buf);
     })
     .catch(function(response){
-      return res.status(404).send('[FAILURE] Echec de l\'insertion');
+      let state = {'state' : '[KO] GET'}
+      let buf = Buffer.from(JSON.stringify({'state' : state}));
+      return res.end(buf);
+    })
+});
+
+// Methode GET : all
+app.get('/taches', function (req, res) {
+  console.log('[GET] /taches all ');
+  db_request = "SELECT * FROM DB_gestionnaireDeTaches";
+  db_get(db_request)
+    .then(function(response){
+      let state = {'state' : '[OK] GET ALL'}
+      let buf = Buffer.from(JSON.stringify({'state' : state, 'req_response' : response}));
+      return res.end(buf);
+    })
+    .catch(function(response){
+      let state = {'state' : '[KO] GET ALL'}
+      let buf = Buffer.from(JSON.stringify({'state' : state}));
+      return res.end(buf);
     })
 });
 
@@ -46,52 +67,56 @@ app.get('/taches/:id', function (req, res) {
 // Methode POST
 app.post('/taches', function (req, res) {
   //res.send('[POST] /taches');
-  console.log('POST')
-  console.log(req.body)
-  //tache = req.body.tache;
-
-  // console.log(tache);
-  // let tags_tache = "";
-  // console.log(tache.tags_tache)
-  // tache["tags_tache"].forEach(element => {
-  //   tags_tache = tags_tache + element + ',';
-  // });
-  // tache.tags_tache = tags_tache
-  // console.log(tache.tags_tache)
-  // db_request = "INSERT INTO DB_gestionnaireDeTaches(title, dateBegin, dateEnd, statut, tags) VALUES (?,?,?,?,?)"
-  // db_param = [tache.title, tache.dateBegin, tache.dateEnd, tache.statut, tache.tags_tache];
-  // db_run(db_request, db_param)
-  //   .then(function(response){
-  //     console.log(response)
-  //     let buf = Buffer.from(JSON.stringify({'state' : '[SUCCESS] Insertion effectuée'}));
-  //     return res.end(buf); 
-  //   })
-  //   .catch(function(response){
-  //     console.log(response)
-  //     let buf = Buffer.from(JSON.stringify({'state' : '[FAILURE] Echec de l\'insertion'}));
-  //     return res.end(buf); 
-  //   })
+  tache = req.body.tache;
+  db_request = "INSERT INTO DB_gestionnaireDeTaches(title, dateBegin, dateEnd, statut, tags) VALUES (?,?,?,?,?)"
+  db_param = [tache.title, tache.dateBegin, tache.dateEnd, tache.statut, tache.tags];
+  db_run(db_request, db_param)
+    .then(function(response){
+      //console.log(response);
+      db_request = "SELECT * FROM DB_gestionnaireDeTaches ORDER BY id DESC LIMIT 1";
+      return db_get(db_request);
+    })
+    .then(function(response){
+      console.log(response);
+      let state = {'state' : '[OK] POST'}
+      let buf = Buffer.from(JSON.stringify({'state' : state, 'req_response' : response}));
+      return res.end(buf);
+    })
+    .catch(function(response){
+      let state = {'state' : '[KO] POST'}
+      let buf = Buffer.from(JSON.stringify({'state' : state}));
+      return res.end(buf); 
+    })
 });
 
 // Methode PUT
 // TODO : tester si le tuple à modifier existe
-app.put('/taches/:id', function (req, res) {
+app.put('/taches', function (req, res) {
   //res.send('[PUT] /taches + id ' + req.params.id);
   tache = req.body.tache;
-  tache.id  = parseInt(req.params.id);
-  let tags = "";
-  tache["tags"].forEach(element => {
-    tags = tags + element + ',';
-  });
-  tache.tags = tags;
   db_request = "UPDATE DB_gestionnaireDeTaches SET title = (?), dateBegin = (?), dateEnd = (?), statut = (?), tags = (?) WHERE id = (?)"
   db_param = [tache.title, tache.dateBegin, tache.dateEnd, tache.statut, tache.tags, tache.id];
   db_run(db_request, db_param)
     .then(function(response){
-      return res.send('[SUCCESS] Modification effectuée');
+      db_request = "SELECT * FROM DB_gestionnaireDeTaches WHERE id = (?)"
+      db_param = tache.id
+      return db_get(db_request, db_param);
     })
-    .catch(function(response){    
-      return res.send('[FAILURE] Echec de la modification');
+    .then(function(response){
+      console.log(response);
+      if(JSON.stringify(response) == "[]"){
+        let state = {'state' : '[KO] PUT : no tuple for this id'}
+        let buf = Buffer.from(JSON.stringify({'state' : state}));
+        return res.end(buf); 
+      }
+      let state = {'state' : '[OK] PUT'}
+      let buf = Buffer.from(JSON.stringify({'state' : state, 'req_response' : response}));
+      return res.end(buf);
+    })
+    .catch(function(response){
+      let state = {'state' : '[KO] PUT'}
+      let buf = Buffer.from(JSON.stringify({'state' : state}));
+      return res.end(buf); 
     })
 });
 
@@ -99,14 +124,21 @@ app.put('/taches/:id', function (req, res) {
 // TODO : tester si le tuple à modifier existe
 app.delete('/taches/:id', function (req, res) {
   //res.send('[DELETE] /taches + id ' + req.params.id);
-  db_request = "DELETE FROM DB_gestionnaireDeTaches WHERE id = ?"
+
+  db_request = "DELETE FROM DB_gestionnaireDeTaches WHERE id = (?)"
+  console.log(req.params.id)
   db_param = [parseInt(req.params.id)];
+  console.log(db_param)
   db_run(db_request, db_param)
     .then(function(response){
-      return res.send({ 'state' : 'SUCCESS] suppression effectuée'});
+      let state = {'state' : '[OK] DELETE'}
+      let buf = Buffer.from(JSON.stringify({'state' : state}));
+      return res.end(buf);
     })
     .catch(function(response){
-      return res.send('[FAILURE] Echec de la suppression');
+      let state = {'state' : '[KO] DELETE'}
+      let buf = Buffer.from(JSON.stringify({'state' : state}));
+      return res.end(buf); 
     })
 });
 

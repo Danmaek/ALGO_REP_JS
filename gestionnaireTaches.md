@@ -147,3 +147,10 @@ And for converting string to json obj :
 
 var temp = JSON.parse(buf.toString());
 ```
+
+
+```
+console.log(tache.tags)
+  let tags_tache = tache['tags'].split(',');
+  tache.tags = tags_tache;
+```

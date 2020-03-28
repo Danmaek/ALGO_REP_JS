@@ -1,4 +1,11 @@
-<form action="/formGET" method="GET" class="form-example">
+<form action="/forms/form-get-all" method="GET" class="form-example">
+  <h1>Méthode GET all</h1>
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
+<form action="/forms/form-get" method="GET" class="form-example">
   <h1>Méthode GET</h1>
   <div class="form-example">
     <label for="id_tache">ID de la tache: </label>
@@ -9,7 +16,7 @@
   </div>
 </form>
 
-<form action="http://localhost:3000/taches" method="POST" class="form-example">
+<form action="/forms/form-post" method="GET" class="form-example">
   <h1>Méthode POST</h1>
   <div class="form-example">
     <label for="title">title: </label>
@@ -35,17 +42,21 @@
     </select>
   </div>
   <div class="form-example">
-    <p>Prière de séparer les tags par une virgule.</p>
+    <p>Prière de séparer les tags par un espace.</p>
     <label for="tags">tags: </label>
     <textarea type="text" name="tags_tache" id="tags_tache" required></textarea>
-  </div>        
+  </div>
   <div class="form-example">
     <input type="submit" value="submit">
   </div>
 </form>
 
-<form action="/form" method="PUT" class="form-example">
+<form action="/forms/form-put" method="GET" class="form-example">
   <h1>Méthode PUT</h1>
+  <div class="form-example">
+    <label for="id_tache">ID de la tache: </label>
+    <input type="integer" name="id_tache" id="id_tache" required>
+  </div>
   <div class="form-example">
     <label for="title">title: </label>
     <input type="text" name="title_tache" id="title_tache" required>
@@ -70,7 +81,7 @@
     </select>
   </div>
   <div class="form-example">
-    <p>Prière de séparer les tags par une virgule.</p>
+    <p>Prière de séparer les tags par un espace.</p>
     <label for="tags">tags: </label>
     <textarea type="text" name="tags_tache" id="tags_tache" required></textarea>
   </div>        
@@ -79,7 +90,7 @@
   </div>
 </form>
 
-<form action="/form" method="DELETE" class="form-example">
+<form action="/forms/form-delete" method="GET" class="form-example">
   <h1>Méthode DELETE</h1>
   <div class="form-example">
     <label for="id">ID de la tache: </label>
@@ -110,14 +121,16 @@
       </tr>
     </thead>
     <tbody>
+      <% for (let index = 0; index < req_response.length; index++) { %>
       <tr>
-        <td><%= req_response["id"] %></td>
-        <td><%= req_response["title"] %></td>
-        <td><%= req_response["dateBegin"] %></td>
-        <td><%= req_response["dateEnd"] %></td>
-        <td><%= req_response["statut"] %></td>
-        <td><%= req_response["tags"] %></td>
+        <td><%= req_response[index]["id"] %></td>
+        <td><%= req_response[index]["title"] %></td>
+        <td><%= req_response[index]["dateBegin"] %></td>
+        <td><%= req_response[index]["dateEnd"] %></td>
+        <td><%= req_response[index]["statut"] %></td>
+        <td><%= req_response[index]["tags"] %></td>
       </tr>
+      <% } %>
     </tbody>
   </table>
   <% } %>

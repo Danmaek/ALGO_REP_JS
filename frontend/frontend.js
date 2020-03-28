@@ -3,6 +3,7 @@ const express = require('express')
 const layout = require('express-layout')
 
 const routes = require('./routes')
+const forms = require('./forms')
 const app = express();
 
 app.set('views', path.join(__dirname, 'views'))
@@ -15,10 +16,10 @@ const middlewares = [
 ];
 app.use(middlewares);
 
-app.use('/', routes);
+app.use('/', routes); // vue principale
+app.use('/forms', forms); // middleware interne
 
 app.listen(3001, () => {
   console.log('App running at http://localhost:3001');
 });
  
-
