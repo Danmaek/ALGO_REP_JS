@@ -11,6 +11,7 @@ class Database{
         if (typeof db === 'undefined') {
             throw new Error('Cannot be called directly');
         } else {
+            console.log("[DB] ouverture bdd")
             this.instance = db;
         }
     }
@@ -27,22 +28,11 @@ class Database{
           });
         });
     }
-
-    // TODO : pb
-    // static create_db_connexion(){
-    //     return new Promise(function(resolve, reject){
-    //         let db 
-    //         console.log('Connected to the gestionnaireTaches SQlite database.');
-    //         });
-    //     resolve(db);
-        
-    // }
     
     db_get(sql,params){
         return new Promise((resolve, reject) => {
             this.instance.all(sql, params, (err, result) => {
                 if(err) reject(err)
-                console.log(result)
                 resolve(result);
             });
         });
@@ -50,20 +40,21 @@ class Database{
     
     // TODO : mise à niveau fléché / this.instance
     db_run(sql,params){
-        return new Promise(function(resolve, reject){
-            db.run(sql, params, function(err, result){
+        return new Promise((resolve, reject) => {
+            this.instance.run(sql, params, (err, result) => {
                 if(err) reject(err)
                 resolve(result);
             });
         });
     };
     
-    db_close(db){
-        db.close((err) => {
+    db_close(){
+        
+        this.instance.close((err) => {
             if (err) {
                 return console.error(err.message);
             }
-            console.log('Close the database connection.'); 
+            console.log("[DB] fermeture dbb") 
         });
     }
 }

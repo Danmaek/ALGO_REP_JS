@@ -80,7 +80,6 @@ router.get('/form-post', function (req, res) {
         data += chunk;
     });
     resp.on('end', () => {
-        console.log(data)
         const parsed = JSON.parse(data.toString());
         console.log(parsed)
         state = parsed.state;
