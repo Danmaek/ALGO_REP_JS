@@ -7,18 +7,18 @@ router.use(bodyParser.urlencoded({ extended: true }));
 
 const http = require('http');
 
-
-router.get('/form-get', function (req, res) {    
-    http.get('http://localhost:3000/taches/'+ req.query.id_tache, (resp) => {
+router.get('/form-get-all', function (req, res) {    
+    console.log("[GET] /form-get-all => redirect [GET] /taches");
+    http.get('http://localhost:3000/taches', (resp) => {
     let data = '';
     resp.on('data', (chunk) => {
         data += chunk;
     });
     resp.on('end', () => {
-        let parsed = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        console.log(req_response)
         res.render('index', {state : state, req_response : req_response})
     });
     }).on("error", (err) => {
@@ -27,15 +27,16 @@ router.get('/form-get', function (req, res) {
     });
 });
 
-router.get('/form-get-all', function (req, res) {    
-    console.log("test")
-    http.get('http://localhost:3000/taches', (resp) => {
+router.get('/form-get', function (req, res) {    
+    console.log("[GET] /form-get-all => redirect [GET] /taches/" + req.query.id_tache);
+    http.get('http://localhost:3000/taches/'+ req.query.id_tache, (resp) => {
     let data = '';
     resp.on('data', (chunk) => {
         data += chunk;
     });
     resp.on('end', () => {
-        let parsed = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
         res.render('index', {state : state, req_response : req_response})
@@ -48,8 +49,8 @@ router.get('/form-get-all', function (req, res) {
 
 // TODO : méthode post
 router.get('/form-post', function (req, res) {
-    
-    let tache = 
+    console.log("[GET] /form-post => redirect [POST] /taches");
+    const tache = 
     {
         tache : {
             title : req.query.title_tache,
@@ -59,12 +60,10 @@ router.get('/form-post', function (req, res) {
             tags : req.query.tags_tache
         }
     }
-
-    console.log(tache)
     
-    let post_data = JSON.stringify(tache)
+    const post_data = JSON.stringify(tache)
     
-    let options = {
+    const options = {
         host: '127.0.0.1',
         port: 3000,
         path: '/taches',
@@ -78,16 +77,14 @@ router.get('/form-post', function (req, res) {
     const request = http.request('http://localhost:3000/taches', options, (resp) => {
     let data = '';
     resp.on('data', (chunk) => {
-        console.log(data)
         data += chunk;
     });
     resp.on('end', () => {
         console.log(data)
-        let parsed = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        console.log(state);
-        console.log(req_response)
         res.render('index', {state : state, req_response : req_response});
     });
 }).on("error", (err) => {
@@ -98,8 +95,8 @@ request.end();
 });
 
 router.get('/form-put', function (req, res) {
-    
-    let tache = 
+    console.log("[GET] /form-put => redirect [PUT] /taches/" + req.query.id_tache);    
+    const tache = 
     {
         tache : {
             id : parseInt(req.query.id_tache),
@@ -111,11 +108,9 @@ router.get('/form-put', function (req, res) {
         }
     }
 
-    console.log(tache)
+    const post_data = JSON.stringify(tache)
     
-    let post_data = JSON.stringify(tache)
-    
-    let options = {
+    const options = {
         host: '127.0.0.1',
         port: 3000,
         method : 'put',
@@ -128,15 +123,13 @@ router.get('/form-put', function (req, res) {
     const request = http.request('http://localhost:3000/taches', options, (resp) => {
     let data = '';
     resp.on('data', (chunk) => {
-        console.log(data)
         data += chunk;
     });
     resp.on('end', () => {
-        let parsed = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        console.log(state);
-        console.log(req_response)
         res.render('index', {state : state, req_response : req_response});
     });
     }).on("error", (err) => {
@@ -147,8 +140,8 @@ request.end();
 });
 
 router.get('/form-delete', function (req, res) {
-    
-    let options = {
+    console.log("[GET] /form-delete => redirect [DELETE] /taches/" + req.query.id_tache);    
+    const options = {
         host: '127.0.0.1',
         port: 3000,
         method : 'delete',
@@ -160,14 +153,12 @@ router.get('/form-delete', function (req, res) {
     const request = http.request('http://localhost:3000/taches/' + req.query.id_tache, options, (resp) => {
     let data = '';
     resp.on('data', (chunk) => {
-        console.log(data)
         data += chunk;
     });
     resp.on('end', () => {
-        console.log(data)
-        let parsed = JSON.parse(data.toString());
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
         state = parsed.state;
-        console.log(state);
         res.render('index', {state : state, req_response : null});
     });
     }).on("error", (err) => {
