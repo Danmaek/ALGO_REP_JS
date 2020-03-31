@@ -16,13 +16,30 @@
   </div>
 </form>
 
+<form action="/forms/form-get-by-state" method="GET" class="form-example">
+  <h1>Méthode GET !achevées, !annulées</h1>
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
+<form action="/forms/form-get-by-tag" method="GET" class="form-example">
+  <h1>Méthode GET by tag</h1>
+  <div class="form-example">
+    <label for="id_tache">ID du tag: </label>
+    <input type="integer" name="tag" id="tag" required>
+  </div>
+  <div class="form-example">
+    <input type="submit" value="submit">
+  </div>
+</form>
+
 <form action="/forms/form-post" method="GET" class="form-example">
   <h1>Méthode POST</h1>
   <div class="form-example">
     <label for="title">title: </label>
     <input type="text" name="title_tache" id="title_tache" required>
   </div>
-  <p>Dates au format : YYYY-MM-DD HH:MM:SS.SSS </p>
   <div class="form-example">
     <label for="dateBegin">dateBegin: </label>
     <input type="date" name="dateBegin_tache" id="dateBegin_tache" required>
@@ -61,7 +78,6 @@
     <label for="title">title: </label>
     <input type="text" name="title_tache" id="title_tache" required>
   </div>
-  <p>Dates au format : YYYY-MM-DD HH:MM:SS.SSS </p>
   <div class="form-example">
     <label for="dateBegin">dateBegin: </label>
     <input type="date" name="dateBegin_tache" id="dateBegin_tache" required>

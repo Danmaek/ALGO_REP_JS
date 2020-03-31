@@ -17,6 +17,9 @@ html {
   * {
     box-sizing: border-box;
   }
+  h1{
+    font-size: larger;
+  }
   .h1_panel{
     text-align: center;
   }
@@ -33,11 +36,11 @@ html {
   }
   .form-header {
     width: 100%;
-    max-width: 400px;
+    max-width: 250px;
   }
   form {
     width: 100%;
-    max-width: 350px;
+    max-width: 250px;
     padding: 20px;
     background: #f8f8f8;
     border: 1px solid rgba(0,0,0,.1);
