@@ -154,3 +154,44 @@ console.log(tache.tags)
   let tags_tache = tache['tags'].split(',');
   tache.tags = tags_tache;
 ```
+
+
+
+
+```
+// Methode GET : all
+app.get('/taches', async function (req, res) {
+  console.log('[GET] /taches all ');
+  
+  let db_request = "SELECT * FROM DB_Tache";
+
+  var db = await return_database_object()
+  
+  let data = await return_get_db(db, db_request)
+  
+  if(data === undefined){
+    db.db_close();
+    const state = {'state' : '[KO] GET ALL'}
+    const buf = Buffer.from(JSON.stringify({'state' : state}));
+    return res.end(buf);
+  } else {
+    db.db_close();
+    const state = {'state' : '[OK] GET ALL'}
+    const buf = Buffer.from(JSON.stringify({'state' : state, 'req_response' : data}));
+    return res.end(buf);
+  }
+});
+
+
+async function return_database_object() {
+  return database.build_db_connexion();
+}
+
+async function return_get_db(db, db_request, params){
+  return db.db_get(db_request, params)
+}
+
+async function return_get_db(db, db_request, params){
+  return db.db_get(db_request, params)
+}
+```
