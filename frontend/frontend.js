@@ -20,6 +20,6 @@ app.use('/', routes); // vue principale
 app.use('/forms', forms); // middleware interne
 
 app.listen(3001, () => {
-  console.log('App running at http://localhost:3001');
+  console.log('Frontend sur http://localhost:3001');
 });
  
