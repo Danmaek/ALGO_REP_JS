@@ -59,7 +59,7 @@ class taskDAO{
         let data;
         let params =  [id]
         let request = "DELETE FROM DB_Tache WHERE id = (?)";
-        return data = [await this.db.db_delete(request, params)];
+        return data = await this.db.db_delete(request, params);
     }
 
 }

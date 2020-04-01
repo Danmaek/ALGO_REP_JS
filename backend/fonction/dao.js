@@ -1,7 +1,7 @@
-const database = require('./database');
-const taskDAO = require('./taskDAO');
-const tagDAO = require('./tagDAO');
-const bindingDAO = require('./bindingDAO');
+const database = require('../class/database');
+const taskDAO = require('../class/taskDAO');
+const tagDAO = require('../class/tagDAO');
+const bindingDAO = require('../class/bindingDAO');
 
 
 module.exports = {

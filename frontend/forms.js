@@ -29,7 +29,13 @@ router.get('/form-get-all', function (req, res) {
 });
 
 router.get('/form-get', function (req, res) {    
-    console.log("[GET] /form-get-all => redirect [GET] /taches/" + req.query.id_tache);
+
+    console.log("[GET] /form-get => redirect [GET] /taches/" + req.query.id_tache);
+    let req_response = "";
+
+    if(req.query.id_tache.trim() == ''){
+        return res.render('index', {state : {'state' : '[KO] GET : Prière de remplir le champ correctement'}, req_response : req_response}); 
+    }
 
     http.get('http://localhost:3000/taches/id/'+ req.query.id_tache, (resp) => {
     let data = '';
@@ -41,11 +47,11 @@ router.get('/form-get', function (req, res) {
         console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        res.render('index', {state : state, req_response : req_response})
+        return res.render('index', {state : state, req_response : req_response})
     });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
-        res.render('index', {state : state, req_response : req_response})
+        return res.render('index', {state : state, req_response : req_response})
     });
 });
 
@@ -62,16 +68,22 @@ router.get('/form-get-by-state', function (req, res) {
         console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        res.render('index', {state : state, req_response : req_response})
+        return res.render('index', {state : state, req_response : req_response})
     });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
-        res.render('index', {state : state, req_response : req_response})
+        return res.render('index', {state : state, req_response : req_response})
     });
 });
 
 router.get('/form-get-by-tag', function (req, res) {    
     console.log("[GET] /forms/form-get-by-tag => redirect [GET] /taches/tag/" + req.query.tag);
+
+    let req_response = '';
+
+    if(req.query.tag.trim() == ''){
+        return res.render('index', {state : {'state' : '[KO] GET : Prière de remplir le champ correctement'}, req_response : req_response}); 
+    }
 
     http.get('http://localhost:3000/taches/tag/'+ req.query.tag, (resp) => {
     let data = '';
@@ -83,11 +95,15 @@ router.get('/form-get-by-tag', function (req, res) {
         console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        res.render('index', {state : state, req_response : req_response})
+        return res.render('index', {state : state, req_response : req_response})
     });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
-        res.render('index', {state : state, req_response : req_response})
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
+        state = parsed.state;
+        req_response = parsed.req_response;
+        return res.render('index', {state : state, req_response : req_response})
     });
 });
 
@@ -128,10 +144,15 @@ router.get('/form-post', function (req, res) {
         console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        res.render('index', {state : state, req_response : req_response});
+        return res.render('index', {state : state, req_response : req_response});
     });
 }).on("error", (err) => {
+    const parsed = JSON.parse(data.toString());
+        console.log(parsed)
+        state = parsed.state;
+        req_response = parsed.req_response;
     console.log("Error: " + err.message);
+    return res.render('index', {state : state, req_response : req_response})
 });
 request.write(post_data);
 request.end();
@@ -139,6 +160,19 @@ request.end();
 
 router.get('/form-put', function (req, res) {
     console.log("[GET] /form-put => redirect [PUT] /taches/" + req.query.id_tache);
+    let req_response = '';
+
+    // TODO : blocage des blancs
+
+    // if((req.query.req.query.id_tache.trim() == '' &&  )|| req.query.req.query.req.query.title_tache.trim() == '' || req.query.req.query.req.query.statut_tache.trim() == ''){
+    //     return res.render('index', {state : {'state' : '[KO] GET : Prière de remplir le champ correctement'}, req_response : req_response}); 
+    // }
+
+
+    
+ 
+
+
 
     const tache = 
     {
@@ -174,10 +208,15 @@ router.get('/form-put', function (req, res) {
         console.log(parsed)
         state = parsed.state;
         req_response = parsed.req_response;
-        res.render('index', {state : state, req_response : req_response});
+        return res.render('index', {state : state, req_response : req_response});
     });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
+        state = parsed.state;
+        req_response = parsed.req_response;
+    return res.render('index', {state : state, req_response : req_response})
     });
     request.write(post_data);
     request.end();
@@ -185,6 +224,12 @@ router.get('/form-put', function (req, res) {
 
 router.get('/form-delete', function (req, res) {
     console.log("[GET] /form-delete => redirect [DELETE] /taches/" + req.query.id_tache);
+
+    let req_response = '';
+
+    if(req.query.id_tache.trim() == ''){
+        return res.render('index', {state : {'state' : '[KO] GET : Prière de remplir le champ correctement'}, req_response : req_response}); 
+    }
 
     const options = {
         host: '127.0.0.1',
@@ -208,6 +253,11 @@ router.get('/form-delete', function (req, res) {
     });
     }).on("error", (err) => {
         console.log("Error: " + err.message);
+        const parsed = JSON.parse(data.toString());
+        console.log(parsed)
+        state = parsed.state;
+        req_response = parsed.req_response;
+    return res.render('index', {state : state, req_response : req_response})
     });
 
     request.end();
