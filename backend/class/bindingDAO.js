@@ -1,8 +1,9 @@
+// Class pour intéragir avec la table Binding_Tache_Tag de la bdd
 class bindingDAO{
     db;
 
     constructor(db_){
-        console.log("[DAO] create bindingDAO")
+        console.log("[DAO] create bindingDAO");
         this.db = db_;
     }
 
@@ -11,11 +12,13 @@ class bindingDAO{
             try {
                 resolve(new bindingDAO(db_));
             } catch (error) {
-                console.log(error)
+                console.log(error);
                 reject(error);
             }
         });
     }
+
+    // Liste des différentes requêtes vers la table de Binding_Tache_Tag
 
     async getRowsFromIdTag(id_tag){
         let data;
@@ -26,14 +29,14 @@ class bindingDAO{
 
     async postOneRow(id_task, id_tag){
         let data;
-        let params =  [id_task, id_tag]
+        let params =  [id_task, id_tag];
         let request = "INSERT INTO Binding_Tache_Tag(id_tache, id_tag) VALUES (?,?)";
         return data = [await this.db.db_run(request, params)];
     }
 
     async deleteRowsfromIdTask(id_task){
         let data;
-        let params =  [id_task]
+        let params =  [id_task];
         let request = "DELETE FROM Binding_Tache_Tag WHERE id_tache = (?)";
         return data = [await this.db.db_run(request, params)];
     }

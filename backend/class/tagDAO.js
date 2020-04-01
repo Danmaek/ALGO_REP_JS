@@ -1,8 +1,9 @@
+// Similaire à DB_tache mais pour la table DB_Tag
 class tagDAO{
     db;
 
     constructor(db_){
-        console.log("[DAO] create tagDAO")
+        console.log("[DAO] create tagDAO");
         this.db = db_;
     }
 
@@ -11,7 +12,7 @@ class tagDAO{
             try {
                 resolve(new tagDAO(db_));
             } catch (error) {
-                console.log(error)
+                console.log(error);
                 reject(error);
             }
         });
@@ -26,7 +27,7 @@ class tagDAO{
 
     async postOneTag(tag){
         let data;
-        let params =  [tag]
+        let params =  [tag];
         let request = "INSERT INTO DB_Tag(tag) VALUES (?)";
         return data = [await this.db.db_run(request, params)];
     }

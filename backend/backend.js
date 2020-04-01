@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const taches = require('./routes/taches') ;
 
+// Utilisation de bodyParser pour lire le JSON du body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -15,6 +16,6 @@ app.get('/', (req, res) => {
   res.send("Vous êtes bien sur le backend. Pour bénéficier du frontend, merci de lancer frondend.js contenu dans le dossier frontend.")
 })
 
-//controlleur des requêtes vers /taches
+// Controlleur des requêtes vers /taches
 app.use('/taches', taches);
 

@@ -1,3 +1,6 @@
+// Ensemble des fonctions utilisées par le contrôleur pour contrôler les données reçues.
+
+// Vérifie les valeurs entré dans la date sont correctes.
 function isCorrectDateFormat(date){
     let boo = false;
     const exploded = date.split('-');
@@ -12,6 +15,8 @@ function isCorrectDateFormat(date){
     return boo;
 }
 
+// Prend un date envoyé depuis le frontend vers le back.
+// Parse et rassemble la date dans le format voulu.
 function reformat(date){
     const exploded = date.split('-');
     const d = exploded[2];
@@ -22,8 +27,9 @@ function reformat(date){
     return s_date;
 }
 
+// Prend en paramètre une chaîne de caractère, la segmente en fonction du caractère ',' et renvoie un tableau de tag.
 function tags_format(tags){
-    let exploded = tags.split(',')
+    let exploded = tags.split(',');
     for (let index = 0; index < exploded.length; index++) {
         exploded[index] = exploded[index].trim();
     }
@@ -35,10 +41,11 @@ function tags_format(tags){
     return exploded;
 }
 
+// Prend en paramètre dateBegin et dateEnd et vérifie que dateEnd est après dateBegin.
 function isCorrectDates(date1, date2){
     let boo = true;
-    exp_date1 = date1.split('/')
-    exp_date2 = date2.split('/')
+    exp_date1 = date1.split('/');
+    exp_date2 = date2.split('/');
     if(exp_date1[2] > exp_date2[2]){
         boo = false;
     } else if(exp_date1[1] > exp_date2[1]){
@@ -46,7 +53,8 @@ function isCorrectDates(date1, date2){
     } else if(exp_date1[0] > exp_date2[0]){
         boo = false;
     }
-    return boo
+    return boo;
 }
 
+// Export des fonctions pour en bénéficier dans l'ensemble du programme.
 module.exports = {isCorrectDateFormat, reformat, tags_format, isCorrectDates}

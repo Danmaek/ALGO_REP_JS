@@ -1,13 +1,13 @@
-const path = require('path')
-const express = require('express')
-const layout = require('express-layout')
+const path = require('path');
+const express = require('express');
+const layout = require('express-layout');
 
-const routes = require('./routes')
-const forms = require('./forms')
+const routes = require('./routes');
+const forms = require('./forms');
 const app = express();
 
-app.set('views', path.join(__dirname, 'views'))
-app.set('view engine', 'ejs')
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 // chargement du fichier layout sur l'ensemble des pages
 const middlewares = [
@@ -17,7 +17,7 @@ const middlewares = [
 app.use(middlewares);
 
 app.use('/', routes); // vue principale
-app.use('/forms', forms); // middleware interne
+app.use('/forms', forms); // middleware interne pour les formulaires
 
 app.listen(3001, () => {
   console.log('Frontend sur http://localhost:3001');
