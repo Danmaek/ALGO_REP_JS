@@ -119,7 +119,6 @@ router.get('/tag/:tag', async function (req, res) {
     let id_tag = await tagDAO.getIdByTag(req.params.tag);
     if(id_tag[0] !== undefined && id_tag[0].id){
         id_tag = id_tag[0].id;
-        console.log(id_tag);
     } else {
         state = {'state' : '[KO] GET TAG : tag inexistant'}
         buf = Buffer.from(JSON.stringify({'state' : state}));
@@ -132,7 +131,6 @@ router.get('/tag/:tag', async function (req, res) {
 
     // Récupération de l'id de toutes les tâches en fonction du tag appliqué.
     let tab_id_task = await bindingDAO.getRowsFromIdTag(id_tag);
-    console.log(tab_id_task);
     
     let taskDAO = await DAO.return_taskDAO(db);
     let tmp;
